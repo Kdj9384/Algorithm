@@ -47,3 +47,28 @@ Level 2
 2. 문자열 str에 대해, 문자열의 길이를 size, 해시 값을 hash_v 라고 할 때, str 보다 큰 문자열의, size 만큼 잘라낸 후, 해시 값을 구한다.
 3. 큰 문자열의 앞에서 size만큼의 문자열의 해시값 중에 hash_v 와 일치하는 해시 값이 있는지 확인.
 4. 모든 입력된 문자열에 대해 적용.
+
+##### unordered_set, unordered_map 의 hash_function
+
+```C++
+// unordered_set::hash_function
+#include <iostream>
+#include <string>
+#include <unordered_set>
+
+typedef std::unordered_set<std::string> stringset;
+
+int main ()
+{
+  stringset myset;
+
+  stringset::hasher fn = myset.hash_function();
+
+  std::cout << "that: " << fn ("that") << std::endl;
+  std::cout << "than: " << fn ("than") << std::endl;
+
+  return 0;
+}
+```
+
+##### 시간 초과

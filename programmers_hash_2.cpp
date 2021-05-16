@@ -2,6 +2,7 @@
 #include <vector>
 #include <iostream>
 #include <algorithm>
+#include <unordered_set>
 
 using namespace std;
 
@@ -10,23 +11,22 @@ using namespace std;
 // 해당 문자열의 길이와 해시 값 구하기
 //
 
-int hash_func(string str, int size_v)
+int hash_func(string str)
 {
   int hash = 0;
+  unordered_set<string> hash_set;
 
-  if (str.size() != size_v)
-  {
-    // str에서 앞에서 부터 size_v 만큼 자르기
-    string substring = str.substr(size_v);
+  unordered_set<string>::hasher fn = hash_set.hash_function();
 
-    // substring 사용
-
-  } else {
-    // str 사용
-  }
+  hash = fn(str);
 
   // 해시값 리턴하기
   return hash;
+}
+
+bool compare(string begin, string end)
+{
+  return begin.size() < end.size();
 }
 
 bool solution(vector<string> phone_book)
@@ -37,19 +37,42 @@ bool solution(vector<string> phone_book)
   sort(phone_book.begin(), phone_book.end());
 
   // 2. 어느 문자열의 size_v 와 hash_v 구하기.
-  string temp = phone_book[0];
-  int size_v = temp.size();
-  int hash_v = hash_func(temp, size_v);
-
   for (int i = 0; i < phone_book.size() - 1; i++)
   {
     int size_v = phone_book[i].size();
-    int hash_v = hash_func(phone_book[i], size_v);
+    int hash_v = hash_func(phone_book[i]);
 
-    for (int j = i + 1; j < phone_book.size(); j++)
+    for (int j = 0; j < phone_book.size(); j++)
     {
+      // 같은 문자열 비교하지 않는다.
+      if (i == j)
+      {
+        continue;
+      }
+
+      string str = phone_book[j];
+      int size_v_str = str.size();
+
+      if (size_v_str > size_v)
+      {
+        str = str.substr(0, size_v);
+      }
+      else if (size_v_str < size_v)
+      {
+        continue;
+      }
+      else
+      {
+        // 두 문자열의 길이가 같은 경우.
+      }
+
+      if (phone_book[i] < str)
+      {
+        break;
+      }
+
       // size_v 만큼 앞에서 잘라서 해시 값을 구함.
-      int hash_v_tmp = hash_func(phone_book[j], size_v);
+      int hash_v_tmp = hash_func(str);
 
       if (hash_v == hash_v_tmp)
       {
@@ -64,6 +87,6 @@ bool solution(vector<string> phone_book)
 
 int main(void)
 {
-  vector<string> tmp = {"119", "97674223", "1195524421"};
+  vector<string> tmp = {"97674223", "119", "1195524421"};
   cout << solution(tmp);
 }
