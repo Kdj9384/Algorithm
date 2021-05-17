@@ -30,9 +30,7 @@ Level 2
 
 #### 문제 풀이
 
-> 해시를 사용하여 해결해보자.
-
-##### 라빈-카프 알고리즘
+##### 1. 라빈-카프 알고리즘
 
 - 해시를 사용해 문자열을 비교, 매칭 하는 알고리즘
 - 자신 문자열(패턴) 과 대상 문자열의 해시값을 구한 뒤, 비교해보고, 같으면, 원래의 문자열을 직접 비교해 보는 방법.
@@ -40,15 +38,7 @@ Level 2
 
 그러나, 우리의 문제는 접두어의 경우만 비교하고 있으므로 딱히 `라빈 핑거프린트` 알고리즘을 사용할 필요가 없다.
 
-> 1. 각 문자열으리 char의 아스키 값을 적절히 조합한, hash_func을 직접 만들어보기.
-> 2. 증명되어있는 rabin's fingerprint hash_func을 사용하기
-
-1. 문자열의 길이를 오름차순으로 정렬한다.
-2. 문자열 str에 대해, 문자열의 길이를 size, 해시 값을 hash_v 라고 할 때, str 보다 큰 문자열의, size 만큼 잘라낸 후, 해시 값을 구한다.
-3. 큰 문자열의 앞에서 size만큼의 문자열의 해시값 중에 hash_v 와 일치하는 해시 값이 있는지 확인.
-4. 모든 입력된 문자열에 대해 적용.
-
-##### unordered_set, unordered_map 의 hash_function
+##### 2. unordered_set, unordered_map 의 hash_function
 
 ```C++
 // unordered_set::hash_function
@@ -71,4 +61,83 @@ int main ()
 }
 ```
 
-##### 시간 초과
+##### 3. 풀이 Case 1
+
+1. 입력받은 벡터를 사전식으로 정렬한다.
+2. 기준이 되는 i번째 string 의 크기로 이후의 문자열들을 모두 자른다.
+3. 사전식으로 정렬했기 때문에, i 이후의 문자열은 모두 i 보다 같거나 크다.
+4. i 와 i+1 번째 string을 비교해보았을 때, i+1번째 string이 i 보다 크다면, i+2, i+3, ... 이후로 i와 같은 문자열이 나올 수 없다. (사전식으로 정렬하였으므로)
+5. 사전식 정렬을 적극 활용하여, 반복문을 한번만 사용하는 것이 핵심.
+
+> 사전식 정렬 문제였던 것 같음. 문제를 풀기는 쉬우나, 효율성을 만족시키기 어려웠다.
+
+```c++
+bool solution(vector<string> phone_book)
+{
+  bool answer = true;
+  int phone_book_len = phone_book.size();
+  unordered_set<string> hash_set;
+
+  sort(phone_book.begin(), phone_book.end());
+
+  for (int i = 0; i < phone_book_len - 1; i++)
+  {
+    int size_v = phone_book[i].size();
+
+    string target = phone_book[i + 1].substr(0, size_v);
+
+    if (phone_book[i] == target)
+    {
+      answer = false;
+      return answer;
+    }
+  }
+  return answer;
+}
+```
+
+##### 오답) 풀이 Case 2 [시간 초과]
+
+> 해시를 이용해 해결해본 문제
+
+1. i번째 string의 size를 기준으로, 이후의 string을 모두 자른뒤, `unordered_set`에 넣어 준다.
+2. i번째 string을 key로 하여, 일치하는 해시 값이 있는지 확인해본다.
+3. 단, 문제에서 일치하는 문자열은 없다고 제시하였기에 길이가 같은 문자열의 경우 무시한다.
+
+```c++
+bool compare(string begin, string end)
+{
+  return begin.size() < end.size();
+}
+
+
+bool solution(vector<string> phone_book)
+{
+  bool answer = true;
+  int phone_book_len = phone_book.size();
+  unordered_set<string> hash_set;
+
+  // 문자열의 길이로 정렬
+  sort(phone_book.begin(), phone_book.end(), compare);
+
+  for (int i = 0; i < phone_book_len - 1; i++)
+  {
+    int size_v = phone_book[i].size();
+    string target = phone_book[i + 1].substr(0, size_v);
+
+    for (int j = i + 1; j < phone_book_len; j++)
+    {
+      if (size_v != phone_book[j].size())
+        hash_set.insert(phone_book[j].substr(0, size_v));
+    }
+
+    if (hash_set.count(phone_book[i]))
+    {
+      answer = false;
+      return answer;
+    }
+  }
+
+  return answer;
+}
+```
