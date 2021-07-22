@@ -438,3 +438,146 @@ void print(char x);
 void printf(double x, int y);
 // 3가지 함수 모두 다른 함수라고 인지
 ```
+
+### 6. 연산자 오버로딩 (overloading)
+
+#### 정의
+
+- 연산자 오버로딩을 위해서, 오버로딩을 원하는 연산자 함수를 제작하면 된다.
+
+  `(리턴 타입) operator(연산자) (연산자가 받는 인자)` 의 구조를 가진다.
+
+  ```c++
+  // a == b
+  bool operator==(const MyString& str) const;
+  ```
+
+  이제 MyString 타입의 `str1 == str2` 연산을 수행하게 되면, 내부적으로 `str1.operator==(str2)` 와 동일한 동작을 수행하게 된다.
+  <br>
+
+- 임의의 연산자 `@`에 대하여 `a@b` 에 대하여, 컴파일러는 아래 중 하나를 선택하여 실행한다.
+
+  ```c++
+  *a.operator@(b); // 멤버 함수, @가 단항 연산자, 동등하지 않는 이항연산자 일때
+  *operator@(a, b); // 외부 함수 , @가 동등한 이항 연산자 일때
+  // 위와 같은 규칙을 고려하여 연산자 함수를 정의해야한다.
+  ```
+
+- 같은 연산자도 오버로딩을 통해 여러 동작을 가질 수 있다.
+
+  ```c++
+  T operator+(const char * p) const; // T + "" 인 경우
+  T operator+(const T& a) const; // T + T 인 경우
+  // 같은 "+" 연산자에 대해, 다른 동작을 부여함.
+  ```
+
+- 생성자만 있다면 컴파일러가 알아서 컴파일 해준다. 따라서 생성자만 있다면, 위에서 정의한 타입별 연산자 함수가 필요없어진다.
+
+  ```c++
+  // 연산자
+  T operator+(const T& a) {}
+  // 생성자
+  T() {}
+  T(const char* p) {}
+
+  //
+  T a();
+  T b();
+  const char *p = "hello";
+
+  a + b // => a.operator+(b)
+  a + p // => a.operator+(T(p))
+
+  //p 가 리터럴 이므로 T(p) 도 리터럴이다. -> const T& 로 받아야함.
+  ```
+
+#### friend
+
+- class A내부에서 `friend class B;` 라고 명시하게된다면, B에서 A의 private에 접근할 수 있다. `friend void func();` 도 가능하다.
+
+  ```c++
+  class A {
+    private:
+    int a;
+    friend class B;
+  }
+
+  class B {
+    private :
+    B () {
+      A a();
+      a.a = 10; // 가능
+    }
+  }
+  ```
+
+#### Wrapper class
+
+- 기본자료형들을 객체로서 다뤄야 할때, 기본 자료형들을 클래스로 포장하여 사용하는데, 이때 wrapper 클래스로 포장하여 사용하게 된다.
+
+- 타입 변환 연산자를 통해 Wrapper class도 기본 자료형 처럼 사용할 수 있게 한다
+
+  ```c++
+  // operator (변환하고자 하는 타입) () {}
+  class Int {
+    int data;
+    public :
+      Int(int data) : data(data){}
+      operator int() {return data;} // wrapper class를 읽을 때 int로 읽는다.
+      ...
+  }
+  ```
+
+### 캐스팅
+
+C와는 다르게 어떤 목적으로 캐스팅 하였는지 구분할 수 있게 4가지 캐스팅을 제공한다.
+
+`static_cast` : 기본적인 언어적 차원의 일반적인 타입변환
+`const_cast` : const 제거. const int -> int
+`dynamic_cast` : 다운 캐스팅
+`reinterpret_cast` : 관련 없는 포인터 사이의 캐스팅
+
+```c++
+//(캐스팅 종류) <바꾸려는 타입> (대상); 형태를 가진다.
+double d;
+static_cast <int> (d); // d은 int형이 되었음.
+```
+
+### 상속
+
+```c++
+class A : public B { // A가 B를 "public" 으로 상속받음
+  int a;
+
+  // A는 B에 의존하고있으므로, B를 먼저 생성해줘야 의존성이 만족된다.
+  A(int a) : B(), a(a) {}
+
+}
+```
+
+#### protected
+
+`private` : 자신과 friend만 접근 가능
+`protected` : 자신과 friend + 자식 접근 가능
+`public` : 모두 접근 가능
+
+`class A : private B {}` 의 경우, A에서 B의 public, protected scope의 객체에 접근할 수 있지만,
+외부에서 A 중에 상속받은 객체에 접근하고자 한다면, private로 받았기 때문에 접근이 불가하다.
+
+즉, 외부 -> A -> B 구조일때,
+외부 -> A : A 고유의 public만 접근 가능 ( 상속 받은 것들은 모두 private 처리됨)
+A -> B : 상속받았으므로, B의 public, protected까지 접근 가능하다.
+
+#### 오버라이딩
+
+- 클래스 내에서 상속받은 함수를 재정의 하는 것.
+
+```c++
+class A {
+  void fuc(int a) {}
+}
+
+class B : public A {
+  void fuc(int a) {} // fuc를 오버라이딩함.
+}
+```
