@@ -578,6 +578,9 @@ class A {
 }
 
 class B : public A {
-  void fuc(int a) {} // fuc를 오버라이딩함.
+  void fuc(int a) override {} // fuc를 오버라이딩함.
 }
 ```
+
+상속관계의 두 클래스 포인터에 대해 캐스팅 하는 것을
+각각 업 캐스팅, 다운 캐스팅이라고 하며, dynamic_cast를 통해 할 수 있다.

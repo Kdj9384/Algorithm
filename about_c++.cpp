@@ -1,8 +1,6 @@
 #include <iostream>
 #include <string.h>
 
-using std::cout, std::endl;
-
 class Marine
 {
   int hp;
@@ -118,16 +116,31 @@ public:
   }
 };
 
+#include <math.h>
 int main()
 {
-  String string_a("hihi");
-  String string_b("hihi");
+  int a, b;
+  int arr[3];
+  int result = 0;
+  std::cin >> a;
+  std::cin >> b;
 
-  cout << string_a.compare(string_b) << endl;
+  // 3자리 자연수
+  for (int i = 0; i < 3; i++)
+  {
+    int temp = a * (b % 10);
+    arr[i] = temp;
 
-  cout << string_a.get_size() << endl;
+    result += temp * (pow(10, i));
 
-  string_a.str_cat(string_b);
+    b /= 10;
+  }
 
-  cout << string_a.get_string() << endl;
+  for (auto i : arr)
+  {
+    std::cout << i << std::endl;
+  }
+  std::cout << result << std::endl;
+
+  return 0;
 }
