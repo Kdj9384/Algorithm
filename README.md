@@ -68,7 +68,7 @@ cout << "hello";
 
 ---
 
-### 2. 참조자 (reference)
+## 2. 참조자 (reference)
 
 ```c++
 int a = 3;
@@ -133,7 +133,7 @@ const int & a = int& f(); // 가능.
 
 ---
 
-### 3. new, delete
+## 3. new, delete
 
 - 동적 할당을 위한 키워드로, `malloc == new`, `free == delete` 의 역할을 수행한다.
 - `malloc` 과는 다르게 `new`를 사용하면, 객체의 경우 생성자를 호출해 준다.
@@ -150,7 +150,7 @@ delete[] pointer;
 
 ---
 
-### 4. Class, 객체지향
+## 4. Class, 객체지향
 
 - 구조체를 사용하는 경우
 
@@ -428,7 +428,7 @@ class tmp {
 
 ---
 
-### 5. 함수의 오버로딩 (overloading)
+## 5. 함수의 오버로딩 (overloading)
 
 - c++ 에서는 함수의 이름이 같더라도, 인자가 다르면 다른함수라고 판단한다.
 - 정확히 일치하는 타입이 없는 경우, 점차 포괄적으로 형변환을 통해 일치하는 함수를 찾는다.
@@ -449,7 +449,7 @@ void printf(double x, int y);
 
 ---
 
-### 6. 연산자 오버로딩 (overloading)
+## 6. 연산자 오버로딩 (overloading)
 
 #### 정의
 
