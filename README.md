@@ -5,7 +5,7 @@
 참고 ::
 https://modoocode.com/
 
-### 1. `namespace` 의 이해
+## 1. `namespace` 의 이해
 
 #### 정의
 
@@ -65,6 +65,8 @@ cout << "hello";
 
 <b> 그러나, 위와 같이 `namespace` 전체를 `using` 하는 것은 충돌위험때문에 권장하지 않는다. </b>
 프로그램을 만들때 나만의 namespace를 만들어 충돌없이 객체를 관리하는 것을 권장한다.
+
+---
 
 ### 2. 참조자 (reference)
 
@@ -129,6 +131,8 @@ const int & a = int& f(); // 가능.
 
 8. 스코프 밖에서 참조자가 사용될때 메모리가 할당된다.
 
+---
+
 ### 3. new, delete
 
 - 동적 할당을 위한 키워드로, `malloc == new`, `free == delete` 의 역할을 수행한다.
@@ -143,6 +147,8 @@ delete pointer;  // 동적 할당한 포인터를 free;
 T* pointer = new T[size];
 delete[] pointer;
 ```
+
+---
 
 ### 4. Class, 객체지향
 
@@ -420,6 +426,8 @@ class tmp {
 }
 ```
 
+---
+
 ### 5. 함수의 오버로딩 (overloading)
 
 - c++ 에서는 함수의 이름이 같더라도, 인자가 다르면 다른함수라고 판단한다.
@@ -438,6 +446,8 @@ void print(char x);
 void printf(double x, int y);
 // 3가지 함수 모두 다른 함수라고 인지
 ```
+
+---
 
 ### 6. 연산자 오버로딩 (overloading)
 
@@ -584,3 +594,5 @@ class B : public A {
 
 상속관계의 두 클래스 포인터에 대해 캐스팅 하는 것을
 각각 업 캐스팅, 다운 캐스팅이라고 하며, dynamic_cast를 통해 할 수 있다.
+
+---
