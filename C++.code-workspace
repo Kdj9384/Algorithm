@@ -10,7 +10,8 @@
       "cmath": "cpp",
       "ostream": "cpp",
       "algorithm": "cpp",
-      "random": "cpp"
+      "random": "cpp",
+      "queue": "cpp"
     }
   }
 }

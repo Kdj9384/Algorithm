@@ -3,43 +3,43 @@
 #include <vector>
 #include <string>
 
+#include <math.h>
 using namespace std;
 
 int main()
 {
-  int N, M;
-  int sum = 0, max = -1;
+  // 입, 출력 시간 단축
+  ios_base::sync_with_stdio(false);
+  cin.tie(NULL);
+  //
 
-  vector<int> arr;
+  int N, M, tmp;
+  int answer = 0;
+  vector<int> vec;
+  vector<int> mode;
 
-  cin >> N >> M;
-
-  for (int i = 0; i < N; i++)
-  {
-    int tmp;
-    cin >> tmp;
-
-    if (tmp < M)
-    {
-      arr.push_back(tmp);
-    }
-  }
+  cin >> N;
 
   for (int i = 0; i < N; i++)
   {
-    for (int j = i + 1; j < N; j++)
-    {
-      for (int k = j + 1; k < N; k++)
-      {
-        sum = arr[i] + arr[j] + arr[k];
-
-        if (sum > max && sum <= M)
-        {
-          max = sum;
-        }
-      }
-    }
+    cin >> M;
+    vec.push_back(M);
+    answer += M;
   }
 
-  cout << max;
+  sort(vec.begin(), vec.end());
+
+  // 산술 평균 소숫점 첫재짜리 반올리
+  cout << floor(static_cast<double>(answer) / N) << "\n";
+
+  // 중앙값
+  cout << vec[N / 2 + 1] << "\n";
+
+  // 최빈값 여러개일 경우, 두번째로 작은 값
+  for (auto i : vec)
+  {
+  }
+
+  // 범위
+  cout << vec.back() - vec.front() << "\n";
 }
