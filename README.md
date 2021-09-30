@@ -29,6 +29,13 @@ namespace name {
 // name::foo 로 사용해야한다.
 ```
 
+#### `::` 범위 확인 연산자
+
+```
+namespaceA::x // namespaceA 안의 x
+::x // global(전역) 에서 x == 메인함수 밖의 x
+```
+
 #### 이름없는 namespace
 
 ```c++

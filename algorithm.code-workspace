@@ -1,0 +1,14 @@
+{
+  "folders": [
+    {
+      "path": "."
+    }
+  ],
+  "settings": {
+    "files.associations": {
+      "__locale": "cpp",
+      "unordered_map": "cpp",
+      "iostream": "cpp"
+    }
+  }
+}
