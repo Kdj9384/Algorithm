@@ -8,6 +8,7 @@ int arr[N][N];
 int run = 0;
 std::vector<std::pair<int, int>> blank;
 
+// bool validCheck(int blank_idx, int expect_value)  // 이 방법도 가능
 bool validCheck(int blank_idx)
 {
   auto a = blank[blank_idx]; // arr 에서 blank의 좌표
